@@ -41,12 +41,18 @@ object JoinStat {
     .sort(loanDs.col(key))
     .collect()
 
-  val date: Iterable[String] = joined.map(_.getString(0))
+  val date = joined.map(_.getString(0))
   val loan = joined.map(_.getFloat(1).toDouble)
+  val maxLoan = loan.max
+  val normLoan = loan.map(_ / maxLoan)
+
   val price = joined.map(_.getFloat(2).toDouble)
+  val maxPrice = price.max
+  val normPrice = price.map(_ / maxPrice)
+
   val p = Plot()
-    .withScatter(date, loan, ScatterOptions().name("% Loan for House Purchase"))
-    .withScatter(date, price, ScatterOptions().name("House Purchase Index (quarterly)"))
+    .withScatter(date, normLoan, ScatterOptions().name("% Loan for House Purchase").text(loan))
+    .withScatter(date, normPrice, ScatterOptions().name("House Purchase Index (quarterly)").text(price))
 
   def fire = draw(p, "Loan vs. HPI", writer.FileOptions(overwrite = true))
 
