@@ -27,9 +27,7 @@ object PropertyPrice {
 }
 
 object JoinStat {
-  val spark: SparkSession = SparkSession.builder().appName("eu-stats").config("spark.master", "local").getOrCreate()
-
-  import spark.implicits._
+  val spark = SparkSession.builder().appName("eu-stats").config("spark.master", "local").getOrCreate()
 
   val loanDs = spark.createDataFrame(createRdd("data.csv", 5, LoanPercent.apply))
   val priceDs = spark.createDataFrame(createRdd("QDEN628BIS.csv", 1, PropertyPrice.apply))
@@ -37,7 +35,7 @@ object JoinStat {
   val key = "quarterDate"
   val joined = loanDs
     .join(priceDs.alias("p"), loanDs.col(key) === priceDs.col(key), "inner")
-    .drop($"p.$key")
+    .select(loanDs.col(key), loanDs.col("percent"), priceDs.col("index2010"))
     .sort(loanDs.col(key))
     .collect()
 
