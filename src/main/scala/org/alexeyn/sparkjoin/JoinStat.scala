@@ -52,9 +52,9 @@ object JoinStat {
 
   val p = Plot()
     .withScatter(date, normLoan, ScatterOptions().name("% Loan for House Purchase").text(loan))
-    .withScatter(date, normPrice, ScatterOptions().name("House Purchase Index (quarterly)").text(price))
+    .withScatter(date, normPrice, ScatterOptions().name("Residential Property Price (quarterly)").text(price))
 
-  def fire = draw(p, "Loan vs. HPI", writer.FileOptions(overwrite = true))
+  def fire = draw(p, "Loan vs. Property Price", writer.FileOptions(overwrite = true))
 
   def createRdd[T: ClassTag](path: String, linesToSkip: Int, parse: Array[String] => T): RDD[T] = {
     spark.sparkContext.textFile(path)
