@@ -27,7 +27,7 @@ object PropertyPrice {
 }
 
 object JoinStat {
-  val spark = SparkSession.builder().appName("eu-stats").config("spark.master", "local").getOrCreate()
+  val spark = SparkSession.builder().appName("eu-stats").config("spark.master", "local[*]").getOrCreate()
 
   val loanDs = spark.createDataFrame(createRdd("data.csv", 5, LoanPercent.apply))
   val priceDs = spark.createDataFrame(createRdd("QDEN628BIS.csv", 1, PropertyPrice.apply))
