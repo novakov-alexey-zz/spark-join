@@ -14,7 +14,7 @@ case class LoanPercent(quarterDate: String, percent: Float)
 
 object LoanPercent {
   def apply(line: Array[String]): LoanPercent =
-    LoanPercent(line.head, line(3).toFloat)
+    LoanPercent(line.head, line(4).toFloat)
 }
 
 case class PropertyPrice(quarterDate: String, index2010: Float)
